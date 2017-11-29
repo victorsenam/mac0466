@@ -1,0 +1,15 @@
+**/*.aux
+**/*.log
+**/*.lof
+**/*.lot
+**/*.out
+**/*.toc
+**/*.swp
+**/*.swo
+**/*.bbl
+**/*.blg
+**/*.dvi
+**/*.pdf
+**/*.nav
+**/*.snm
+**/*.run.xml

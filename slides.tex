@@ -17,6 +17,15 @@
 
 \documentclass{beamer}
 
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{scrextend}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,positioning,shadows,trees,patterns,snakes,matrix}
+
 \mode<presentation> {
 
 % The Beamer class comes with a number of default slide themes
@@ -83,14 +92,14 @@
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
 
-\title[Short title]{Full Title of the Talk} % The short title appears at the bottom of every slide, the full title is only on the title page
+\title[Verifiably Truthful Mechanisms]{Verifiably Truthful Mechanisms} % The short title appears at the bottom of every slide, the full title is only on the title page
 
-\author{John Smith} % Your name
-\institute[UCLA] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
+\author{Victor Sena Molero} % Your name
+\institute[IME-USP] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
 {
-University of California \\ % Your institution for the title page
+Universidade de São Paulo \\ % Your institution for the title page
 \medskip
-\textit{john@smith.com} % Your email address
+\textit{victorsenam@gmail.com} % Your email address
 }
 \date{\today} % Date, can be changed to a custom date
 
@@ -100,10 +109,10 @@ University of California \\ % Your institution for the title page
 \titlepage % Print the title page as the first slide
 \end{frame}
 
-\begin{frame}
-\frametitle{Overview} % Table of contents slide, comment this block out to remove it
-\tableofcontents % Throughout your presentation, if you choose to use \section{} and \subsection{} commands, these will automatically be printed on this slide as an overview of your presentation
-\end{frame}
+%\begin{frame}
+%\frametitle{Overview} % Table of contents slide, comment this block out to remove it
+%\tableofcontents % Throughout your presentation, if you choose to use \section{} and \subsection{} commands, these will automatically be printed on this slide as an overview of your presentation
+%\end{frame}
 
 %----------------------------------------------------------------------------------------
 %	PRESENTATION SLIDES
@@ -113,147 +122,319 @@ University of California \\ % Your institution for the title page
 \section{First Section} % Sections can be created in order to organize your presentation into discrete blocks, all sections and subsections are automatically printed in the table of contents as an overview of the talk
 %------------------------------------------------
 
-\subsection{Subsection Example} % A subsection can be created just before a set of slides with a common theme to further break down your presentation into chunks
-
 \begin{frame}
-\frametitle{Paragraphs of Text}
-Sed iaculis dapibus gravida. Morbi sed tortor erat, nec interdum arcu. Sed id lorem lectus. Quisque viverra augue id sem ornare non aliquam nibh tristique. Aenean in ligula nisl. Nulla sed tellus ipsum. Donec vestibulum ligula non lorem vulputate fermentum accumsan neque mollis.\\~\\
+\frametitle{Título}
+\begin{description}
+\item [mechanisms] Mecanismo. Algoritmo que recebe as preferências dos jogadores e decide o resultado.
+\item [truthful] A prova de estratégia.
+\item [verifiably] Verificável. É fácil (polinomial) convencer o agente de que o mecanismo é a prova de estratégia.
+\end{description}
 
-Sed diam enim, sagittis nec condimentum sit amet, ullamcorper sit amet libero. Aliquam vel dui orci, a porta odio. Nullam id suscipit ipsum. Aenean lobortis commodo sem, ut commodo leo gravida vitae. Pellentesque vehicula ante iaculis arcu pretium rutrum eget sit amet purus. Integer ornare nulla quis neque ultrices lobortis. Vestibulum ultrices tincidunt libero, quis commodo erat ullamcorper id.
+O objetivo é desenvolver mecanismos a prova de estratégia verificáveis e compará-los com os mecanismos a prova de estratégia genéricos.
 \end{frame}
 
-%------------------------------------------------
+\begin{frame}
+\frametitle{Procedimento}
+\begin{enumerate}
+\item Especificar formalmente os mecanismos.
+\item Construir um algoritmo que decide se o mecanismo é a prova de estratégia.
+\item Analisar a qualidade dos mecanismos verificáveis.
+\end{enumerate}
+\end{frame}
 
 \begin{frame}
-\frametitle{Bullet Points}
+\frametitle{Parte I : Especificar formalmente os mecanismos}
 \begin{itemize}
-\item Lorem ipsum dolor sit amet, consectetur adipiscing elit
-\item Aliquam blandit faucibus nisi, sit amet dapibus enim tempus eu
-\item Nulla commodo, erat quis gravida posuere, elit lacus lobortis est, quis porttitor odio mauris at libero
-\item Nam cursus est eget velit posuere pellentesque
-\item Vestibulum faucibus velit a augue condimentum quis convallis nulla gravida
+\item Foco em ``\textit{facility location}'', o problema do ar condicionado. Cada um dos~$n$ agentes escolhe um ponto na reta real.
+\begin{itemize}
+    \item Progresso recente sobre a qualidade destes.
+    \item Já foi um bom primeiro exemplo (\textit{proof of concept}) para perguntas sobre mecanismos.
+\end{itemize}
+\pause
+\item Mecanismos determinísticos.
+\begin{itemize}
+    \item Árvores de decisão binária.
+    \item Comparam escolhas.
+    \item Retornam combinação convexa das escolhas.
+\end{itemize}
+\item Mecanismos aleatorizados.
+\begin{itemize}
+    \item Escolhe um mecanismo determinístico aleatoriamente e usa ele.
+    \item Vamos descrever um formato mais conciso para manter a eficiência.
+\end{itemize}
 \end{itemize}
 \end{frame}
 
-%------------------------------------------------
-
 \begin{frame}
-\frametitle{Blocks of Highlighted Text}
-\begin{block}{Block 1}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lectus nisl, ultricies in feugiat rutrum, porttitor sit amet augue. Aliquam ut tortor mauris. Sed volutpat ante purus, quis accumsan dolor.
-\end{block}
-
-\begin{block}{Block 2}
-Pellentesque sed tellus purus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum quis magna at risus dictum tempor eu vitae velit.
-\end{block}
-
-\begin{block}{Block 3}
-Suspendisse tincidunt sagittis gravida. Curabitur condimentum, enim sed venenatis rutrum, ipsum neque consectetur orci, sed blandit justo nisi ac lacus.
-\end{block}
+\frametitle{Parte II : Construir o algoritmo de verificação}
+\begin{itemize}
+\item Custo de um jogador é a distância entre o seu ponto favorito~$x$ (informação privada) e o ponto~$y$ escolhido pelo mecanismo. Denotamos~$C(x,y) = |x-y|$.
+\item Verificar determinístico é polinomial no tamanho da árvore de decisão e quantidade de jogadores. Não dá pra fazer melhor do que isso.
+\item Caso aleatorizado:
+\begin{itemize}
+    \item Universalmente a prova de estratégia (\textit{= universal truthfulness}).
+    \item O resultado se estende.
+\end{itemize}
+\end{itemize}
 \end{frame}
 
-%------------------------------------------------
-
 \begin{frame}
-\frametitle{Multiple Columns}
-\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+\frametitle{Parte III : Analisar a qualidade dos verificáveis}
+\begin{itemize}
+\item Pela natureza da Parte II, o algoritmo é verificável quando a árvore é pequena. Polinomial na quantidade de jogadores.
+\item No sentido de aproximação. Custo social (\textit{= social cost}) e custo máximo (\textit{= maximum cost}).
+\item Bound multiplicativo e justo. Custo atingido restrito dividido pelo custo ótimo (mecanismo qualquer).
+\end{itemize}
 
-\column{.45\textwidth} % Left column and width
-\textbf{Heading}
-\begin{enumerate}
-\item Statement
-\item Explanation
-\item Example
-\end{enumerate}
-
-\column{.5\textwidth} % Right column and width
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lectus nisl, ultricies in feugiat rutrum, porttitor sit amet augue. Aliquam ut tortor mauris. Sed volutpat ante purus, quis accumsan dolor.
-
-\end{columns}
-\end{frame}
-
-%------------------------------------------------
-\section{Second Section}
-%------------------------------------------------
-
-\begin{frame}
-\frametitle{Table}
 \begin{table}
-\begin{tabular}{l l l}
+\begin{tabular}{l c c}
 \toprule
-\textbf{Treatments} & \textbf{Response 1} & \textbf{Response 2}\\
+ & \textbf{Custo social} & \textbf{Custo máximo}\\
 \midrule
-Treatment 1 & 0.0003262 & 0.562 \\
-Treatment 2 & 0.0015681 & 0.910 \\
-Treatment 3 & 0.0009271 & 0.296 \\
+Truthful & 1 & 2 \\
+Univ. Truthful & 1 & \textcolor{red}{2} \\
+\midrule
+Ver. Truthful & $\Theta(\frac{n}{\log(n)})$ & 2 \\
+Ver. Univ. Truthful & $1 + \epsilon$ & 2 \\
 \bottomrule
 \end{tabular}
-\caption{Table caption}
 \end{table}
 \end{frame}
 
 %------------------------------------------------
-
 \begin{frame}
-\frametitle{Theorem}
-\begin{theorem}[Mass--energy equivalence]
-$E = mc^2$
-\end{theorem}
+\frametitle{Parte I}
+Especificar formalmente os mecanismos
 \end{frame}
 
-%------------------------------------------------
-
-\begin{frame}[fragile] % Need to use the fragile option when verbatim is used in the slide
-\frametitle{Verbatim}
-\begin{example}[Theorem Slide Code]
-\begin{verbatim}
 \begin{frame}
-\frametitle{Theorem}
-\begin{theorem}[Mass--energy equivalence]
-$E = mc^2$
-\end{theorem}
-\end{frame}\end{verbatim}
-\end{example}
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}
-\frametitle{Figure}
-Uncomment the code on this slide to include your own image from the same directory as the template .TeX file.
-%\begin{figure}
-%\includegraphics[width=0.8\linewidth]{test}
-%\end{figure}
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}[fragile] % Need to use the fragile option when verbatim is used in the slide
-\frametitle{Citation}
-An example of the \verb|\cite| command to cite within the presentation:\\~
-
-This statement requires citation \cite{p1}.
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}
-\frametitle{References}
-\footnotesize{
-\begin{thebibliography}{99} % Beamer does not support BibTeX so references must be inserted manually as below
-\bibitem[Smith, 2012]{p1} John Smith (2012)
-\newblock Title of the publication
-\newblock \emph{Journal Name} 12(3), 45 -- 678.
-\end{thebibliography}
+\frametitle{Mecanismos determinísticos}
+\begin{block}{Exemplo}
+Mediana de 3 jogadores.
+\end{block}
+\begin{figure}
+\begin{tikzpicture}[
+    internal/.style={rectangle, draw=black, rounded corners=1mm, fill=gray!40, text centered, text=black},
+    leaf/.style={rectangle, draw=black, rounded corners=1mm, fill=blue!40, text centered, text=black},
+    edge from parent/.style={draw,-latex,->,midway},
+    level 1/.style={sibling distance=5cm},
+    level 2/.style={sibling distance=2cm},
+    level 3/.style={sibling distance=1cm}
+]
+\node [internal] (root) {$x_1 \geq x_2$}
+child{
+    node [internal] (A) {$x_2 \geq x_3$}
+    child {
+        node [leaf] (L1) {$x_2$} edge from parent node[left] { sim }
+    }
+    child {
+        node [internal] (C) {$x_1 \geq x_3$}
+        child {
+            node [leaf] (L2) {$x_3$} edge from parent node[left] { sim }
+        }
+        child {
+            node [leaf] (L2) {$x_1$} edge from parent node[right] { não }
+        }
+        edge from parent node[right] { não }
+    }
+    edge from parent node[left] { sim }
 }
+child{
+    node [internal] (B) {$x_2 \geq x_3$}
+    child {
+        node [internal] (C) {$x_1 \geq x_3$}
+        child {
+            node [leaf] (L2) {$x_1$} edge from parent node[left] { sim }
+        }
+        child {
+            node [leaf] (L2) {$x_3$} edge from parent node[right] { não }
+        }
+        edge from parent node[left] { sim }
+    }
+    child {
+        node [leaf] (L1) {$x_2$} edge from parent node[right] { não }
+    }
+    edge from parent node[right] { não }
+}
+;
+\end{tikzpicture}
+\end{figure}
 \end{frame}
 
 %------------------------------------------------
 
 \begin{frame}
-\Huge{\centerline{The End}}
+\frametitle{Mecanismos aleatorizados}
+\begin{itemize}
+\item Geralmente: Seleciona uma árvore determinística aleatoriamente e usa ela. Vamos permitir algumas coisas a mais na árvore pra facilitar (e diminuir o tamanho) da descrição de alguns mecanismos.
+\item O mecanismo é representado por uma árvore com um nó raiz que escolhe aleatoriamente um de seus~$K$ filhos. O~$r$-ésimo filho é a raiz de uma árvore~$T_r$ (descrita a seguir) e é tomado com chance~$p_r$. $\sum\limits_{i=1}^k p_i = 1$.
+\end{itemize}
 \end{frame}
 
-%----------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Mecanismos aleatorizados}
+Para o~$r$-ésimo filho do nó raiz:
+\begin{itemize}
+    \item Existe um subconjunto fixo~$N_r$ de agentes.
+    \item Existe uma distribuição de probabilidades sobre sequências~$Z = \{ z_{1}, \dots, z_{m_r} \}$ de tamanho fixo~$m_r \leq n - |N_r|$ onde cada~$z_{i}$ é uma escolha de um agente distinto fora do conjunto~$N_r$.
+\end{itemize}
+Após escolher um filho~$r$, o mecanismo sorteia a sequência~$Z$, constrói um vetor~$x \in \mathbb{R}^{|N_r| + m_r}$ a partir do conjunto~$N_r$ e da sequência~$Z$ e aplica um mecanismo determinístico definido por~$T_r$ sobre este vetor.
+\pause
+\begin{block}{Exemplo}
+Mediana de um subconjunto aleatório uniforme de 3 jogadores.
+\end{block}
+\end{frame}
 
-\end{document} 
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Parte II}
+Construir o algoritmo de verificação
+\end{frame}
+
+\begin{frame}
+\frametitle{Mecanismos determinísticos: Definições}
+
+\begin{itemize}
+\item Se~$\mathcal{M}$ é um mecanismo determinístico,~$\mathcal{L}$ é uma folha deste mecanismo e~$x$ é um vetor de escolhas dos jogadores.
+\begin{itemize}
+    \item $\mathcal{M}(x)$ é a escolha realizada pelo mecanismo ao receber~$x$.
+    \item $\mathcal{C}_\mathcal{L}(x)$ é o conjunto de cláusulas que~$x$ deve respeitar para atingir a folha~$\mathcal{L}$. No exemplo da mediana de três, este conjunto, para a segunda folha mais à esquerda, é~$\{(x_1 \geq x_2),(x_2 < x_3),(x_1 \geq x_3)\}$.
+    \item $y_\mathcal{L}(x)$ é o valor da função na folha~$\mathcal{L}$ aplicada a~$x$.
+\end{itemize}
+\pause
+\item Um mecanismo determinístico~$\mathcal{M}$ é a prova de estratégia se, para toda entrada~$x$, todo jogador~$k$ e toda escolha alternativa~$x'_k$ para~$k$, vale que
+$$C(x_k,\mathcal{M}(x)) \leq C(x_k,\mathcal{M}(x'_k,x)) \text{.}$$
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Mecanismos determinísticos: Algoritmo}
+Dado um mecanismo~$\mathcal{M}$, vamos testar todo os pares de folhas~$\mathcal{L}$ e~$\mathcal{L}'$ e descobrir se existe um vetor~$x$ e uma escolha alternativa~$x'_k$ tais que:
+\begin{itemize}
+\item $\mathcal{C}_\mathcal{L}(x)$ e~$\mathcal{C}_{\mathcal{L}'}(x'_k,x_{-k})$ são respeitados. Isto é,~$x$ atinge a folha~$\mathcal{L}$ e, se~$k$ trocar sua escolha para~$x'_k$, atinge a folha~$\mathcal{L}'$.
+\item Vale que $C(x_k,y_\mathcal{L}(x)) > C(x_k,y_{\mathcal{L}'}(x'_k,x_{-k}))$.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Mecanismos determinísticos: Algoritmo}
+
+\begin{itemize}
+\item Denotamos por~$\hat{x}$ a concatenação de~$x$ e~$x_k'$.
+\item Se não houvessem restrições de desigualdade estrita, seria fácil decidir se existe~$\hat{x}$ com PL.
+\item Se $\hat{x}$ respeita, então~$\alpha \hat{x}$ respeita para todo~$\alpha \in \mathbb{R}_+$.
+\item Reescrevemos qualquer desigualdade da forma~$a < b$ como~$a + 1 \leq b$. Agora o PL funciona.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Mecanismos determinísticos: Complexidade}
+
+\begin{theorem}
+Um mecanismo determinístico representado por uma árvore~$T$ sobre um jogo de~$n$ jogadores pode ser verificado em tempo polinomial em~$|T|$ e~$n$.
+\end{theorem}
+
+O algoritmo descrito usa uma força bruta nos jogadores e nos pares de folhas da árvore. Fixados estes elementos ela monta um PL com uma quantidade polinomial em~$|T|$ de restrições e resolve o mesmo.
+\end{frame}
+
+\begin{frame}
+\frametitle{Mecanismos determinísticos: Complexidade}
+
+Podemos fazer melhor?
+\begin{theorem}
+Sejam~$n \geq 2$ e~$\ell \leq n!$. Se existe um algoritmo que verifica todo mecanismo com~$\ell$ folhas sobre um jogo de~$n$ jogadores, ele deve analisar toda folha.
+\end{theorem}
+\pause
+\begin{itemize}
+\item Suponha, por absurdo, que existe um que não analisa todas.
+\pause
+\item Construa~$\mathcal{M}$ com~$\ell$ folhas que realiza apenas comparações da forma~$x_i < x_j$ onde~$i < j$ e devolve sempre~$x_1$ de forma que todas as folhas sejam atingíveis (sempre possível). Este é a prova de estratégia, pois equivale a uma ditadura.
+\pause
+\item Existe uma folha~$\mathcal{L}$ não analisada. Construa~$\mathcal{M}'$ idêntico a~$\mathcal{M}$ porém tal que~$y_\mathcal{L}(x) = \frac{x_1 + \dots + x_n}{n}$. Este não é a prova de estratégia. Existe um vetor de preferências (verdadeiras)~$x$ distintas que alcança a folha~$\mathcal{L}$. O jogador que prefere o menor valor tem incentivo para mentir.
+\pause
+\item Já que o algoritmo nunca analisa a folha~$\mathcal{L}$, ele vai dar o mesmo resultado para os dois mecanismos e está incorreto.
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Mecanismos determinísticos: Complexidade}
+
+\begin{theorem}
+Seja~$n \geq 2$. Qualquer algoritmo que verifique mecanismos de tamanho superpolinomial em~$n$ toma tempo superpolinomial em~$n$ no pior caso.
+\end{theorem}
+Esse teorema define o que é um mecanismo verificável independente do nosso algoritmo. \\ 
+Um mecanismo determinístico é verificável se sua árvore tem tamanho polinomial em~$n$.
+\end{frame}
+
+\begin{frame}
+\frametitle{Mecanismos aleatorizados}
+
+\begin{itemize}
+\item Focamos em universalmente a prova de estratégia (\textit{= universally truthful}). Deve ser a prova de estratégia independente de todas as escolhas aleatórias.
+\item Poderia ser esperado a prova de estrategia, mas não sabemos verificar estes.
+\item No nosso caso, basta verificar se cada uma das árvores possíveis é a prova de estratégia.
+\end{itemize}
+
+\begin{theorem}
+Um mecanismo aleatorizado pode ser verificado em tempo polinomial em~$n$ e~$\sum\limits_{i=1}^K T_i$.
+\end{theorem}
+\end{frame}
+
+\begin{frame}
+\frametitle{Parte III}
+Analisar a qualidade dos verificaveis.
+\end{frame}
+
+\begin{frame}
+\frametitle{Qualidade dos mecanismos}
+
+\begin{itemize}
+    \item Exigir que mecanismos sejam verificáveis só é útil se estes forem ``bons''.
+    \item Quão bem eles aproximam o custo social e o custo máximo?
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Mecanismos deterministicos}
+
+\begin{itemize}
+\item Custo máximo:
+\begin{description}
+\item [Caso geral] Melhor mecanismo possível escolhe a média entre as duas escolhas extremais.
+\item [Verdadeiro] Qualquer ditadura é a prova de estratégia e tem fator de aproximação 2. Esse é o melhor possível.
+\item [Verificável] Ditaduras são verificáveis.
+\end{description}
+\item Custo social:
+\begin{description}
+\item [Caso geral] Melhor mecanismo possível escolhe a mediana.
+\item [Verdadeiro] Medianas são a prova de estratégia. Fator de aproximação 1.
+\item [Verificável] Estatísticas de ordem não são verificáveis. O melhor fator que conseguimos é~$\Theta(\frac{n}{\log(n)})$.
+\end{description}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Custo social de determinísticos verificáveis}
+...
+\end{frame}
+
+\begin{frame}
+\frametitle{Mecanismos aleatorizados}
+
+\begin{itemize}
+\item Custo social esperado\\ $$\mathbb{E}[ \text{sc}(x,\mathcal{M}(x)) ] = \mathbb{E}\left[ \sum\limits_{i=1}^n C(x_i,\mathcal{M}(x)) \right]$$
+\item Custo máximo esperado\\ $$\mathbb{E}[ \text{mc}(x,\mathcal{M}(x)) ] = \mathbb{E}\left[ \max\limits_{i=1}^n C(x,\mathcal{M}(x)) \right]$$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\end{frame}
+
+\end{document}

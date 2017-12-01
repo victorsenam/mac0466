@@ -352,6 +352,7 @@ $$C(x_k,\mathcal{M}(x)) \leq C(x_k,\mathcal{M}(x'_k,x)) \text{.}$$
 \begin{frame}
 \frametitle{Mecanismos determinísticos: Algoritmo}
 \begin{itemize}
+\item Testar todos os jogadores~$k$.
 \item Testar todos os pares de folhas~$\mathcal{L}$, $\mathcal{L}'$.
 \item Existe um~$x$ e um~$x'_k$ tais que valem $\mathcal{C}_\mathcal{L}(x)$,$\mathcal{C}_{\mathcal{L'}} (x'_k,x_{-k})$ e $C(x_k,y_\mathcal{L}(x)) > C(x_k,y_{\mathcal{L}'}(x'_k,x_{-k}))$?
 \end{itemize}
@@ -440,7 +441,7 @@ Analisar a qualidade dos verificaveis.
 \end{description}
 \item Custo social:
 \begin{description}
-\item [Caso geral] Mediana.
+\item [Ótimo] Mediana.
 \item [Verdadeiro] Mediana. Fator 1.
 \item [Verificável] O melhor fator que conseguimos é~$\Theta\left(\frac{n}{\log(n)}\right)$.
 \end{description}
@@ -459,8 +460,8 @@ Analisar a qualidade dos verificaveis.
 \frametitle{Mecanismos aleatorizados}
 
 \begin{itemize}
-\item Custo social esperado\\ $$\mathbb{E}[ \text{sc}(x,\mathcal{M}(x)) ] = \mathbb{E}\left[ \sum\limits_{i=1}^n C(x_i,\mathcal{M}(x)) \right]$$
-\item Custo máximo esperado\\ $$\mathbb{E}[ \text{mc}(x,\mathcal{M}(x)) ] = \mathbb{E}\left[ \max\limits_{i=1}^n C(x,\mathcal{M}(x)) \right]$$
+\item Custo social esperado\\ $$\mathbb{E}[ C(x,\mathcal{M}(x)) ] = \mathbb{E}\left[ \sum\limits_{i=1}^n C(x_i,\mathcal{M}(x)) \right]$$
+\item Custo máximo esperado\\ $$\mathbb{E}[ \text{mc}(x,\mathcal{M}(x)) ] = \mathbb{E}\left[ \max\limits_{i=1}^n C(x_i,\mathcal{M}(x)) \right]$$
 \end{itemize}
 
 \end{frame}
@@ -487,11 +488,11 @@ Analisar a qualidade dos verificaveis.
 Para todo~$0 < \varepsilon < \frac{1}{10}$ e~$n \in \mathbb{N}$, existe um mecanismo universalmente verdadeiro de tamanho~$\mathcal{O}(\text{poly}(n))$ que aproxima o custo social por um fator de~$1 + \varepsilon$.
 \end{theo}
 
-Como vai ser o algoritmo? Fixa um tamanho~$t = \lceil \frac{100\ln(\frac{1}{\delta})}{(\varepsilon')^2} \rceil$, sorteia~$t$ jogadores e tira a mediana dos~$x$ deles.
+Como vai ser o mecanismo? Fixa um tamanho~$t = \lceil \frac{100\ln(\frac{1}{\delta})}{(\varepsilon')^2} \rceil$ onde~$\varepsilon' = \varepsilon/10$ e~$\delta = \varepsilon/(2n)$, sorteia~$t$ jogadores e tira a mediana dos~$x$ deles.
 
 \begin{itemize}
 \item É universalmente verdadeiro? \onslide<2->{\textcolor{blue}{sim}}
-\item É verificável? O mecanismo tem tamanho polinomial em~$n$? \onslide<3->{\textcolor{blue}{sim}}
+\item É verificável? O mecanismo tem tamanho~$\mathcal{O}(\text{poly}(n))$? \onslide<3->{\textcolor{blue}{sim: $\mathcal{O}(2^{6t})$}}
 \item O fator de aproximação é~$1 + \varepsilon$? \onslide<4->{\textcolor{red}{...}}
 \end{itemize}
 \end{frame}
@@ -541,7 +542,9 @@ $$ \mathbb{P}\left[ X \geq \frac{t}{2} \right] \leq \mathbb{P}\left[ Y \geq \fra
 \end{align}
 
 
-Onde \eqref{B} é provado a seguir,~\eqref{C} é fácil e~\eqref{D} usa a desigualdade de Chernoff e o fato de que~$t \geq \frac{100\ln(\frac{1}{\delta})}{\varepsilon^2}$.
+Onde \eqref{B} é provado a seguir,~\eqref{C} é fácil e~\eqref{D} usa a desigualdade de Chernoff e o fato de que~$t \geq \frac{100\ln(\frac{1}{\delta})}{\varepsilon^2}$. \\
+\pause
+$\mathbb{P}(Z > (1 + \alpha)\mu) \leq e^{-\frac{\alpha^2 \mu}{3}}$ com~$0 < \alpha < 1$.
 
 \end{frame}
 
@@ -562,25 +565,18 @@ Sabemos que~$\mathbb{E}[Y] = (\frac{1}{2} + \frac{\varepsilon}{3})t$. Daí
 
 \begin{theo} Para todo~$0 < \varepsilon < \frac{1}{10}$ e~$n \in \mathbb{N}$, existe um mecanismo universalmente verdadeiro de tamanho~$\mathcal{O}(\text{poly}(n))$ que aproxima o custo social por um fator de~$1 + \varepsilon$.  \end{theo}
 
-\begin{itemize}
-\item Para todo~$t \in [n]$ defina o mecanismo~$\mathcal{M}_{n,t}$ que escolhe um subconjunto de~$t$ elementos e tira sua mediana. 
-\item A razão de aproximação cresce com~$t$ de 1 (fator~$2 - \frac{2}{n}$) até~$n$ (fator 1). 
-\item Cada mecanismo tem tamanho~$\mathcal{O}(2^{6t})$.
-\item Vamos escolher um~$t$ que equilibra o tamanho do mecanismo e o fator.
-\item Dado um~$0 < \varepsilon < 1/10$. Escolhemos~$\varepsilon' = \varepsilon/10$,~$\delta = \varepsilon/(2n)$ e~$t = \lceil \frac{100\ln(\frac{1}{\delta})}{(\varepsilon')^2} \rceil$.
-\end{itemize}
+Queríamos provar que o fator era~$1 + \varepsilon$.
 
-O mecanismo tem tamanho polinomial em~$n$. Qual é o fator?
-
+Dado um~$0 < \varepsilon < 1/10$. Escolhemos~$\varepsilon' = \varepsilon/10$,~$\delta = \varepsilon/(2n)$ e~$t = \lceil \frac{100\ln(\frac{1}{\delta})}{(\varepsilon')^2} \rceil$.
 \end{frame}
 
 \begin{frame}
 \frametitle{Custo social verificável aleatorizado: Prova do Teorema}
 
-Seja~$x$ um vetor de preferências. Suponha que~$x$ está ordenado sem perda de generalidade. Defina~$x_k = \mathcal{M}(x)$,~$x_m$ como a mediana de~$x$ e~$x_\ell$ como a~$\varepsilon'$-mediana que maximiza~$\Delta = |x_\ell - x_m|$. assuma sem perda de generalidade que~$l \leq m$.
+Seja~$x$ um vetor de preferências. Suponha que~$x$ está ordenado sem perda de generalidade. Defina~$x_k = \mathcal{M}(x)$,~$x_m$ como a mediana de~$x$,~$x_\ell$ como a~$\varepsilon'$-mediana que maximiza o custo social. Assuma s.p.g. que~$\ell \leq m$ e defina também~$\Delta = |x_\ell - x_m|$.
  
 \begin{enumerate}
-\item Se~$x_k$ é~$\varepsilon'$-mediana. Separando os jogadores~$i$ em~$i \leq \ell$,~$\ell < i < m$ e~$m \leq i$, podemos concuir
+\item Se~$x_k$ é~$\varepsilon'$-mediana. Separando o vetor de jogadores em~$x_k$ e~$x_m$, podemos concluir que
 \begin{align*} 
 C(x,x_k) \leq C(x,x_\ell) & \leq C(x,x_m) - \ell \Delta + (n - \ell) \Delta \\
 & = C(x,x_\ell) + (n-2\ell)\Delta \text{.}

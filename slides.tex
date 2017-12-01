@@ -15,13 +15,14 @@
 %	PACKAGES AND THEMES
 %----------------------------------------------------------------------------------------
 
-\documentclass{beamer}
+\documentclass[usenames,dvipsnames]{beamer}
 
 \usepackage[brazil]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 
 \usepackage{scrextend}
+\usepackage[normalem]{ulem}
 
 \usepackage{tikz}
 \usetikzlibrary{arrows,shapes,positioning,shadows,trees,patterns,snakes,matrix}
@@ -88,6 +89,17 @@
 \usepackage{graphicx} % Allows including images
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
 
+\newenvironment{theo}{
+    \setbeamercolor{block title}{bg=OliveGreen}
+    \setbeamercolor{block body}{bg=OliveGreen!10}
+    \begin{block}{Teorema}}{\end{block}}
+
+\newenvironment{lema}{
+    \setbeamercolor{block title}{bg=Mulberry}
+    \setbeamercolor{block body}{bg=Mulberry!10}
+    \begin{block}{Lema}}{\end{block}}
+
+
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
@@ -125,39 +137,42 @@ Universidade de São Paulo \\ % Your institution for the title page
 \begin{frame}
 \frametitle{Título}
 \begin{description}
-\item [mechanisms] Mecanismo. Algoritmo que recebe as preferências dos jogadores e decide o resultado.
-\item [truthful] A prova de estratégia.
-\item [verifiably] Verificável. É fácil (polinomial) convencer o agente de que o mecanismo é a prova de estratégia.
+\item [mechanism] Mecanismo. Algoritmo que recebe as preferências dos jogadores e decide o resultado.
+\item [truthful] Verdadeiro. A prova de estratégia.
+\item [verifiable] Verificável. É fácil (polinomial) convencer o jogador de que o mecanismo é verdadeiro.
 \end{description}
 
-O objetivo é desenvolver mecanismos a prova de estratégia verificáveis e compará-los com os mecanismos a prova de estratégia genéricos.
+O objetivo é desenvolver mecanismos a verdadeiros verificáveis e compará-los com os mecanismos verdadeiros gerais.
 \end{frame}
 
 \begin{frame}
 \frametitle{Procedimento}
 \begin{enumerate}
 \item Especificar formalmente os mecanismos.
-\item Construir um algoritmo que decide se o mecanismo é a prova de estratégia.
-\item Analisar a qualidade dos mecanismos verificáveis.
+\item Construir um algoritmo que decide se o mecanismo é verdadeiro.
+\item Analisar a qualidade dos mecanismos verdadeiros verificáveis.
 \end{enumerate}
+
+Os autores consideram que o procedimento é o principal legado do artigo.
 \end{frame}
 
 \begin{frame}
 \frametitle{Parte I : Especificar formalmente os mecanismos}
 \begin{itemize}
-\item Foco em ``\textit{facility location}'', o problema do ar condicionado. Cada um dos~$n$ agentes escolhe um ponto na reta real.
+\item Foco em ``\textit{facility location}'', o problema do ar condicionado.
 \begin{itemize}
+    \item $n$ jogadores escolhem em $\mathbb{R}$.
+    \item Custo~$C(x_k,y) = |x_k-y|$. $x_k$ é a preferência do jogador~$k$ e~$y$ é o resultado do jogo.
     \item Progresso recente sobre a qualidade destes.
-    \item Já foi um bom primeiro exemplo (\textit{proof of concept}) para perguntas sobre mecanismos.
+    \item Já foi um bom primeiro exemplo (``\textit{proof of concept}'') para perguntas sobre mecanismos.
 \end{itemize}
 \pause
-\item Mecanismos determinísticos.
+\item Mecanismos determinísticos:
 \begin{itemize}
-    \item Árvores de decisão binária.
-    \item Comparam escolhas.
-    \item Retornam combinação convexa das escolhas.
+    \item Árvores de decisão binária que comparam escolhas.
+    \item Cada folha retorna uma combinação convexa das escolhas.
 \end{itemize}
-\item Mecanismos aleatorizados.
+\item Mecanismos aleatorizados:
 \begin{itemize}
     \item Escolhe um mecanismo determinístico aleatoriamente e usa ele.
     \item Vamos descrever um formato mais conciso para manter a eficiência.
@@ -168,22 +183,32 @@ O objetivo é desenvolver mecanismos a prova de estratégia verificáveis e comp
 \begin{frame}
 \frametitle{Parte II : Construir o algoritmo de verificação}
 \begin{itemize}
-\item Custo de um jogador é a distância entre o seu ponto favorito~$x$ (informação privada) e o ponto~$y$ escolhido pelo mecanismo. Denotamos~$C(x,y) = |x-y|$.
-\item Verificar determinístico é polinomial no tamanho da árvore de decisão e quantidade de jogadores. Não dá pra fazer melhor do que isso.
+\item Caso determinístico:
+\begin{itemize}
+\item Polinomial no tamanho da árvore e em~$n$.
+\item Não dá pra melhorar.
+\end{itemize}
 \item Caso aleatorizado:
 \begin{itemize}
-    \item Universalmente a prova de estratégia (\textit{= universal truthfulness}).
-    \item O resultado se estende.
+    \item Universalmente a verdadeiro (\textit{= universal truthfulness}).
+    \item Os resultados são equivalentes.
 \end{itemize}
 \end{itemize}
+
+\begin{block}{Conclusão}
+ Verificável significa ter uma árvore polinomial na quantidade de jogadores.
+\end{block}
 \end{frame}
 
 \begin{frame}
 \frametitle{Parte III : Analisar a qualidade dos verificáveis}
 \begin{itemize}
-\item Pela natureza da Parte II, o algoritmo é verificável quando a árvore é pequena. Polinomial na quantidade de jogadores.
-\item No sentido de aproximação. Custo social (\textit{= social cost}) e custo máximo (\textit{= maximum cost}).
-\item Bound multiplicativo e justo. Custo atingido restrito dividido pelo custo ótimo (mecanismo qualquer).
+\item Aproximação:
+\begin{itemize}
+    \item Custo social (\textit{= social cost})
+    \item Custo máximo (\textit{= custo máximo})
+\end{itemize}
+\item Resultados multiplicativos e justos.
 \end{itemize}
 
 \begin{table}
@@ -191,11 +216,11 @@ O objetivo é desenvolver mecanismos a prova de estratégia verificáveis e comp
 \toprule
  & \textbf{Custo social} & \textbf{Custo máximo}\\
 \midrule
-Truthful & 1 & 2 \\
-Univ. Truthful & 1 & \textcolor{red}{2} \\
+Verdadeiro & 1 & 2 \\
+Univ. Verdadeiro & 1 & 2 \\
 \midrule
-Ver. Truthful & $\Theta(\frac{n}{\log(n)})$ & 2 \\
-Ver. Univ. Truthful & $1 + \epsilon$ & 2 \\
+Verdadeiro Verificável & $\Theta(\frac{n}{\log(n)})$ & 2 \\
+Univ. Verdadeiro Verificável & $1 + \epsilon$ & 2 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -266,20 +291,36 @@ child{
 \begin{frame}
 \frametitle{Mecanismos aleatorizados}
 \begin{itemize}
-\item Geralmente: Seleciona uma árvore determinística aleatoriamente e usa ela. Vamos permitir algumas coisas a mais na árvore pra facilitar (e diminuir o tamanho) da descrição de alguns mecanismos.
-\item O mecanismo é representado por uma árvore com um nó raiz que escolhe aleatoriamente um de seus~$K$ filhos. O~$r$-ésimo filho é a raiz de uma árvore~$T_r$ (descrita a seguir) e é tomado com chance~$p_r$. $\sum\limits_{i=1}^k p_i = 1$.
+    \item Seleciona uma árvore determinística e usa ela.
+\onslide<0> {
+    \item A~$r$-ésima árvore:
+    \begin{itemize}
+        \item Escolhida com chance~$p_r$.
+        \item Possui um inteiro~$m_r$.
+        \item Possui uma distribuição de probabilidade sobre subsequências de~$x$ com tamanho~$m_r$.
+        \item Sorteia a sequência e alimenta em uma árvore determinística com parâmetro em~$\mathbb{R}^{m_r}$.
+    \end{itemize}
+}
 \end{itemize}
+\onslide<0> {
+\begin{block}{Exemplo}
+Mediana de um subconjunto aleatório uniforme de 3 jogadores.
+\end{block}
+}
 \end{frame}
 
 \begin{frame}
 \frametitle{Mecanismos aleatorizados}
-Para o~$r$-ésimo filho do nó raiz:
 \begin{itemize}
-    \item Existe um subconjunto fixo~$N_r$ de agentes.
-    \item Existe uma distribuição de probabilidades sobre sequências~$Z = \{ z_{1}, \dots, z_{m_r} \}$ de tamanho fixo~$m_r \leq n - |N_r|$ onde cada~$z_{i}$ é uma escolha de um agente distinto fora do conjunto~$N_r$.
+    \item Seleciona uma árvore \sout{determinística} e usa ela.
+    \item A~$r$-ésima árvore:
+    \begin{itemize}
+        \item Escolhida com chance~$p_r$.
+        \item Possui um inteiro~$m_r$.
+        \item Possui uma distribuição de probabilidade sobre subsequências de~$x$ com tamanho~$m_r$.
+        \item Sorteia a sequência e alimenta em uma árvore determinística com parâmetro em~$\mathbb{R}^{m_r}$.
+    \end{itemize}
 \end{itemize}
-Após escolher um filho~$r$, o mecanismo sorteia a sequência~$Z$, constrói um vetor~$x \in \mathbb{R}^{|N_r| + m_r}$ a partir do conjunto~$N_r$ e da sequência~$Z$ e aplica um mecanismo determinístico definido por~$T_r$ sobre este vetor.
-\pause
 \begin{block}{Exemplo}
 Mediana de um subconjunto aleatório uniforme de 3 jogadores.
 \end{block}
@@ -296,64 +337,52 @@ Construir o algoritmo de verificação
 \frametitle{Mecanismos determinísticos: Definições}
 
 \begin{itemize}
-\item Se~$\mathcal{M}$ é um mecanismo determinístico,~$\mathcal{L}$ é uma folha deste mecanismo e~$x$ é um vetor de escolhas dos jogadores.
+\item Para todo mecanismo determinístico~$\mathcal{M}$, folha~$\mathcal{L}$ e~$x \in \mathbb{R}^n$.
 \begin{itemize}
-    \item $\mathcal{M}(x)$ é a escolha realizada pelo mecanismo ao receber~$x$.
-    \item $\mathcal{C}_\mathcal{L}(x)$ é o conjunto de cláusulas que~$x$ deve respeitar para atingir a folha~$\mathcal{L}$. No exemplo da mediana de três, este conjunto, para a segunda folha mais à esquerda, é~$\{(x_1 \geq x_2),(x_2 < x_3),(x_1 \geq x_3)\}$.
-    \item $y_\mathcal{L}(x)$ é o valor da função na folha~$\mathcal{L}$ aplicada a~$x$.
+    \item \textcolor{blue}{Resultado} $\mathcal{M}(x)$.
+    \item \textcolor{blue}{Restrições} $\mathcal{C}_\mathcal{L}(x)$ no caminho até~$\mathcal{L}$. Exemplo: $\{(x_1 \geq x_2),(x_2 < x_3),(x_1 \geq x_3)\}$.
+    \item \textcolor{blue}{Função} $y_\mathcal{L}(x)$ na folha~$\mathcal{L}$.
 \end{itemize}
 \pause
-\item Um mecanismo determinístico~$\mathcal{M}$ é a prova de estratégia se, para toda entrada~$x$, todo jogador~$k$ e toda escolha alternativa~$x'_k$ para~$k$, vale que
+\item Verdadeiro: Para todo~$x \in \mathbb{R}^n$,~$k \in [n]$ e~$x'_k \in \mathbb{R}$
 $$C(x_k,\mathcal{M}(x)) \leq C(x_k,\mathcal{M}(x'_k,x)) \text{.}$$
 \end{itemize}
 \end{frame}
 
 \begin{frame}
 \frametitle{Mecanismos determinísticos: Algoritmo}
-Dado um mecanismo~$\mathcal{M}$, vamos testar todo os pares de folhas~$\mathcal{L}$ e~$\mathcal{L}'$ e descobrir se existe um vetor~$x$ e uma escolha alternativa~$x'_k$ tais que:
 \begin{itemize}
-\item $\mathcal{C}_\mathcal{L}(x)$ e~$\mathcal{C}_{\mathcal{L}'}(x'_k,x_{-k})$ são respeitados. Isto é,~$x$ atinge a folha~$\mathcal{L}$ e, se~$k$ trocar sua escolha para~$x'_k$, atinge a folha~$\mathcal{L}'$.
-\item Vale que $C(x_k,y_\mathcal{L}(x)) > C(x_k,y_{\mathcal{L}'}(x'_k,x_{-k}))$.
+\item Testar todos os pares de folhas~$\mathcal{L}$, $\mathcal{L}'$.
+\item Existe um~$x$ e um~$x'_k$ tais que valem $\mathcal{C}_\mathcal{L}(x)$,$\mathcal{C}_{\mathcal{L'}} (x'_k,x_{-k})$ e $C(x_k,y_\mathcal{L}(x)) > C(x_k,y_{\mathcal{L}'}(x'_k,x_{-k}))$?
 \end{itemize}
-\end{frame}
-
-
-\begin{frame}
-\frametitle{Mecanismos determinísticos: Algoritmo}
-
+\vskip30pt
+\pause
+Vamos tentar colocar isso em um PL. O que atrapalha?
 \begin{itemize}
-\item Denotamos por~$\hat{x}$ a concatenação de~$x$ e~$x_k'$.
-\item Se não houvessem restrições de desigualdade estrita, seria fácil decidir se existe~$\hat{x}$ com PL.
-\item Se $\hat{x}$ respeita, então~$\alpha \hat{x}$ respeita para todo~$\alpha \in \mathbb{R}_+$.
-\item Reescrevemos qualquer desigualdade da forma~$a < b$ como~$a + 1 \leq b$. Agora o PL funciona.
+\item Módulo na função de custo. \onslide<3->{\textcolor{blue}{Testa tudo.}}
+\item Desigualdades estritas. \onslide<4->{\textcolor{blue}{Infla.}}
 \end{itemize}
-
-\end{frame}
-
-\begin{frame}
-\frametitle{Mecanismos determinísticos: Complexidade}
-
-\begin{theorem}
+\onslide<5->{
+\begin{theo}
 Um mecanismo determinístico representado por uma árvore~$T$ sobre um jogo de~$n$ jogadores pode ser verificado em tempo polinomial em~$|T|$ e~$n$.
-\end{theorem}
-
-O algoritmo descrito usa uma força bruta nos jogadores e nos pares de folhas da árvore. Fixados estes elementos ela monta um PL com uma quantidade polinomial em~$|T|$ de restrições e resolve o mesmo.
+\end{theo}
+}
 \end{frame}
 
 \begin{frame}
 \frametitle{Mecanismos determinísticos: Complexidade}
 
 Podemos fazer melhor?
-\begin{theorem}
+\begin{theo}
 Sejam~$n \geq 2$ e~$\ell \leq n!$. Se existe um algoritmo que verifica todo mecanismo com~$\ell$ folhas sobre um jogo de~$n$ jogadores, ele deve analisar toda folha.
-\end{theorem}
+\end{theo}
 \pause
 \begin{itemize}
 \item Suponha, por absurdo, que existe um que não analisa todas.
 \pause
-\item Construa~$\mathcal{M}$ com~$\ell$ folhas que realiza apenas comparações da forma~$x_i < x_j$ onde~$i < j$ e devolve sempre~$x_1$ de forma que todas as folhas sejam atingíveis (sempre possível). Este é a prova de estratégia, pois equivale a uma ditadura.
+\item Construa~$\mathcal{M}$ com~$\ell$ folhas que realiza apenas comparações da forma~$x_i < x_j$ onde~$i < j$ e devolve sempre~$x_1$ de forma que todas as folhas sejam atingíveis (sempre possível). Este é verdadeiro pois equivale a uma ditadura.
 \pause
-\item Existe uma folha~$\mathcal{L}$ não analisada. Construa~$\mathcal{M}'$ idêntico a~$\mathcal{M}$ porém tal que~$y_\mathcal{L}(x) = \frac{x_1 + \dots + x_n}{n}$. Este não é a prova de estratégia. Existe um vetor de preferências (verdadeiras)~$x$ distintas que alcança a folha~$\mathcal{L}$. O jogador que prefere o menor valor tem incentivo para mentir.
+\item Existe uma folha~$\mathcal{L}$ não analisada. Construa~$\mathcal{M}'$ idêntico a~$\mathcal{M}$ porém tal que~$y_\mathcal{L}(x) = \frac{x_1 + \dots + x_n}{n}$. Este não é verdadeiro. Existe um vetor de preferências~$x$ distintas que alcança a folha~$\mathcal{L}$. O jogador que prefere o menor valor tem incentivo para mentir.
 \pause
 \item Já que o algoritmo nunca analisa a folha~$\mathcal{L}$, ele vai dar o mesmo resultado para os dois mecanismos e está incorreto.
 
@@ -363,9 +392,9 @@ Sejam~$n \geq 2$ e~$\ell \leq n!$. Se existe um algoritmo que verifica todo meca
 \begin{frame}
 \frametitle{Mecanismos determinísticos: Complexidade}
 
-\begin{theorem}
+\begin{theo}
 Seja~$n \geq 2$. Qualquer algoritmo que verifique mecanismos de tamanho superpolinomial em~$n$ toma tempo superpolinomial em~$n$ no pior caso.
-\end{theorem}
+\end{theo}
 Esse teorema define o que é um mecanismo verificável independente do nosso algoritmo. \\ 
 Um mecanismo determinístico é verificável se sua árvore tem tamanho polinomial em~$n$.
 \end{frame}
@@ -374,14 +403,14 @@ Um mecanismo determinístico é verificável se sua árvore tem tamanho polinomi
 \frametitle{Mecanismos aleatorizados}
 
 \begin{itemize}
-\item Focamos em universalmente a prova de estratégia (\textit{= universally truthful}). Deve ser a prova de estratégia independente de todas as escolhas aleatórias.
-\item Poderia ser esperado a prova de estrategia, mas não sabemos verificar estes.
-\item No nosso caso, basta verificar se cada uma das árvores possíveis é a prova de estratégia.
+\item Universalmente verdadeiros. Independente das escolhas.
+\item Esperado verdadeiro seria uma alternativa.
+\item Basta verificar se todas as árvores são a prova de estratégia.
 \end{itemize}
 
-\begin{theorem}
-Um mecanismo aleatorizado pode ser verificado em tempo polinomial em~$n$ e~$\sum\limits_{i=1}^K T_i$.
-\end{theorem}
+\begin{theo}
+Um mecanismo aleatorizado pode ser verificado em tempo polinomial em~$n$ e~$\sum\limits_{i=1}^K |T_i|$. Não é possível se livrar dos~$T_i$, também.
+\end{theo}
 \end{frame}
 
 \begin{frame}
@@ -405,24 +434,26 @@ Analisar a qualidade dos verificaveis.
 \begin{itemize}
 \item Custo máximo:
 \begin{description}
-\item [Caso geral] Melhor mecanismo possível escolhe a média entre as duas escolhas extremais.
-\item [Verdadeiro] Qualquer ditadura é a prova de estratégia e tem fator de aproximação 2. Esse é o melhor possível.
-\item [Verificável] Ditaduras são verificáveis.
+\item [Ótimo] Média entre os extremos.
+\item [Verdadeiro] Ditadura. Fator 2. Melhor possível (resultado antigo).
+\item [Verificável] Ditadura.
 \end{description}
 \item Custo social:
 \begin{description}
-\item [Caso geral] Melhor mecanismo possível escolhe a mediana.
-\item [Verdadeiro] Medianas são a prova de estratégia. Fator de aproximação 1.
-\item [Verificável] Estatísticas de ordem não são verificáveis. O melhor fator que conseguimos é~$\Theta(\frac{n}{\log(n)})$.
+\item [Caso geral] Mediana.
+\item [Verdadeiro] Mediana. Fator 1.
+\item [Verificável] O melhor fator que conseguimos é~$\Theta\left(\frac{n}{\log(n)}\right)$.
 \end{description}
 \end{itemize}
-
 \end{frame}
 
-\begin{frame}
-\frametitle{Custo social de determinísticos verificáveis}
-...
-\end{frame}
+%\begin{frame}
+%\frametitle{Custo social verificável determinístico}
+%
+%\begin{theorem}
+%O melhor fator de aproximação para custo social em um mecanismo determinístico verificável é~$\Theta(\frac{n}{\log(n)})$.
+%\end{theorem}
+%\end{frame}
 
 \begin{frame}
 \frametitle{Mecanismos aleatorizados}
@@ -435,6 +466,141 @@ Analisar a qualidade dos verificaveis.
 \end{frame}
 
 \begin{frame}
+\frametitle{Mecanismos aleatorizados}
+\begin{itemize}
+\item Custo máximo:
+\begin{description}
+\item [Verdadeiro] Ditadura. Fator 2. Melhor possível (resultado novo).
+\item [Verificável] Ditadura.
+\end{description}
+\item Custo social:
+\begin{description}
+\item [Verdadeiro] Mediana. Fator 1.
+\item [Verificável] Ditador aleatório garante~$2 - \frac{2}{n}$. O melhor fator que conseguimos é~$1 + \epsilon$.
+\end{description}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Custo social verificável aleatorizado}
+\begin{theo}
+Para todo~$0 < \varepsilon < \frac{1}{10}$ e~$n \in \mathbb{N}$, existe um mecanismo universalmente verdadeiro de tamanho~$\mathcal{O}(\text{poly}(n))$ que aproxima o custo social por um fator de~$1 + \varepsilon$.
+\end{theo}
+
+Como vai ser o algoritmo? Fixa um tamanho~$t = \lceil \frac{100\ln(\frac{1}{\delta})}{(\varepsilon')^2} \rceil$, sorteia~$t$ jogadores e tira a mediana dos~$x$ deles.
+
+\begin{itemize}
+\item É universalmente verdadeiro? \onslide<2->{\textcolor{blue}{sim}}
+\item É verificável? O mecanismo tem tamanho polinomial em~$n$? \onslide<3->{\textcolor{blue}{sim}}
+\item O fator de aproximação é~$1 + \varepsilon$? \onslide<4->{\textcolor{red}{...}}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Custo social verificável aleatorizado}
+Uma~$\varepsilon$-mediana~$x$ de~$S$ é tal que~$(\frac{1}{2} - \varepsilon)|S| < \pi(x) < (\frac{1}{2} + \varepsilon)|S|$.
+
+\begin{lema}
+Um algoritmo que escolhe um subconjunto de~$t$ elementos de um conjunto~$S$ com~$n$ elementos e retorna sua mediana, retorna uma~$\varepsilon$-mediana de~$S$ com probabilidade pelo menos~$1 - \delta$ para todos os~$\varepsilon,\delta < \frac{1}{10}$ tais que
+$$ \frac{100\ln(\frac{1}{\delta})}{\varepsilon^2} \leq t \leq \varepsilon n \text{.} $$
+\end{lema}
+\end{frame}
+
+\begin{frame}
+\frametitle{Custo social verificável aleatorizado: Prova do Lema}
+Particionamos~$S$.
+$$S_1 = \left\{ x \in S \mid \pi(x) \leq \frac{n}{2} - \varepsilon n \right\}$$
+$$S_2 = \left\{ x \in S \mid \frac{n}{2} - \varepsilon n < \pi(x) < \frac{n}{2} + \varepsilon n\right\}$$
+$$S_3 = \left\{ x \in S \mid \pi(x) \geq \frac{n}{2} + \varepsilon n \right\}$$
+
+Ao escolher~$t$ elementos de~$S$, se menos que~$t/2$ forem escolhidos de~$S_1$ e menos que~$t/2$ forem escolhidos de~$S_3$, então a mediana sempre vai pertencer a~$S_2$ e ser uma~$\varepsilon$-mediana.
+\end{frame}
+
+\begin{frame}
+\frametitle{Custo social verificável aleatorizado: Prova do Lema}
+Qual é a probabilidade de escolher menos do que~$t/2$ elementos de~$S_1$? \\
+
+Criamos~$t$ Bernoullis.~$X_i = 1$ se o~$i$-ésimo ensaio caiu em~$S_1$. Elas não são independentes, mas vale.
+
+\begin{equation*}
+\mathbb{P}[X_i = 1] \leq \frac{\frac{n}{2} - \varepsilon n}{n - (i-1)} \leq \frac{\frac{n}{2} - \varepsilon n}{n - \varepsilon n} \leq \frac{1}{2} - \frac{\varepsilon}{3}
+\end{equation*}
+
+Criamos~$t$ Bernoullis~$Y_i$ independentes com probabilidade~$\frac{1}{2} - \frac{\varepsilon}{3}$. Denotamos~$X = \sum\limits_{i=1}^t X_i$ e~$Y = \sum\limits_{i=1}^t Y_i$. Vale que
+
+$$ \mathbb{P}\left[ X \geq \frac{t}{2} \right] \leq \mathbb{P}\left[ Y \geq \frac{t}{2} \right] \text{.} $$
+\end{frame}
+
+\begin{frame}
+\frametitle{Custo social verificável aleatorizado: Prova do Lema}
+
+\begin{align}
+\mathbb{P}\left[ Y \geq \frac{t}{2} \right] & = \mathbb{P}\left[ Y  \geq \left( 1 + \frac{\varepsilon}{\frac{3}{2} - \varepsilon} \right) \mathbb{E}\left[ Y \right]  \right] \label{B} \\
+& \leq \mathbb{P}\left[ Y \geq \left(1 + \frac{\varepsilon}{2}\right) \mathbb{E}\left[ Y \right] \right] \label{C} \\
+& \leq \text{exp}\left( - \frac{\left(\frac{\varepsilon}{2}\right)^2\left(\frac{1}{2} - \frac{\varepsilon}{3} \right)t}{3} \right) \leq \frac{\delta}{2} \label{D}
+\end{align}
+
+
+Onde \eqref{B} é provado a seguir,~\eqref{C} é fácil e~\eqref{D} usa a desigualdade de Chernoff e o fato de que~$t \geq \frac{100\ln(\frac{1}{\delta})}{\varepsilon^2}$.
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Custo social verificável aleatorizado: Prova do Lema}
+Provar~\eqref{B} é provar
+$$\frac{t}{2} = \left( 1 + \frac{\varepsilon}{\frac{3}{2} - \varepsilon} \right) \mathbb{E}[Y] \text{.} $$
+Sabemos que~$\mathbb{E}[Y] = (\frac{1}{2} + \frac{\varepsilon}{3})t$. Daí
+\begin{align*}
+\frac{t}{2} = \left( \frac{1}{1 - \frac{2\varepsilon}{3} } \right) \mathbb{E}[Y] & = \left(\frac{1 - 1 + \frac{2\varepsilon}{3}}{1 - \frac{2\varepsilon}{3}} + 1 \right) \mathbb{E}[Y] \\
+& = \left( \frac{\varepsilon}{\frac{3}{2} - \varepsilon} + 1 \right) \mathbb{E}[Y]
+\end{align*} 
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Custo social verificável aleatorizado: Prova do Teorema}
+
+\begin{theo} Para todo~$0 < \varepsilon < \frac{1}{10}$ e~$n \in \mathbb{N}$, existe um mecanismo universalmente verdadeiro de tamanho~$\mathcal{O}(\text{poly}(n))$ que aproxima o custo social por um fator de~$1 + \varepsilon$.  \end{theo}
+
+\begin{itemize}
+\item Para todo~$t \in [n]$ defina o mecanismo~$\mathcal{M}_{n,t}$ que escolhe um subconjunto de~$t$ elementos e tira sua mediana. 
+\item A razão de aproximação cresce com~$t$ de 1 (fator~$2 - \frac{2}{n}$) até~$n$ (fator 1). 
+\item Cada mecanismo tem tamanho~$\mathcal{O}(2^{6t})$.
+\item Vamos escolher um~$t$ que equilibra o tamanho do mecanismo e o fator.
+\item Dado um~$0 < \varepsilon < 1/10$. Escolhemos~$\varepsilon' = \varepsilon/10$,~$\delta = \varepsilon/(2n)$ e~$t = \lceil \frac{100\ln(\frac{1}{\delta})}{(\varepsilon')^2} \rceil$.
+\end{itemize}
+
+O mecanismo tem tamanho polinomial em~$n$. Qual é o fator?
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Custo social verificável aleatorizado: Prova do Teorema}
+
+Seja~$x$ um vetor de preferências. Suponha que~$x$ está ordenado sem perda de generalidade. Defina~$x_k = \mathcal{M}(x)$,~$x_m$ como a mediana de~$x$ e~$x_\ell$ como a~$\varepsilon'$-mediana que maximiza~$\Delta = |x_\ell - x_m|$. assuma sem perda de generalidade que~$l \leq m$.
+ 
+\begin{enumerate}
+\item Se~$x_k$ é~$\varepsilon'$-mediana. Separando os jogadores~$i$ em~$i \leq \ell$,~$\ell < i < m$ e~$m \leq i$, podemos concuir
+\begin{align*} 
+C(x,x_k) \leq C(x,x_\ell) & \leq C(x,x_m) - \ell \Delta + (n - \ell) \Delta \\
+& = C(x,x_\ell) + (n-2\ell)\Delta \text{.}
+\end{align*}
+\item Caso contrário,~$C(x,x_k) \leq |x_n - x_1|(n-1)$,~$C(x,x_m) \geq |x_n - x_1|$ e~$C(x,x_m) \geq \ell \Delta$.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Custo social verificável aleatorizado: Prova do Teorema}
+
+Já que o caso 1 tem probabilidade pelo menos~$(1 - \delta)$,
+\begin{align*}
+\frac{\mathbb{E}[C(x,x_k)]}{C(x,x_m)} & \leq \frac{(1-\delta)C(x,x_m) + \Delta(1-\delta)(n-2\ell) + \delta(n-1)|x_n - x_1|}{C(x,x_m)} \\
+& \leq (1 - \delta) + \frac{\Delta(1-\delta)(n - 2\ell)}{\ell \Delta} + \frac{\delta(n-1)|x_n - x_1|}{|x_n - x_1|} \\
+& = 1 - \delta + (1-\delta)\frac{n}{\ell} - 2(1-\delta) + \delta(n-1) \\
+& \leq \delta n - 1 + (1 - \delta)\frac{2}{1 - 2\varepsilon'} \\
+& \leq 1 + \delta n + 5 \varepsilon' = 1 + \epsilon
+\end{align*}
+
 \end{frame}
 
 \end{document}
